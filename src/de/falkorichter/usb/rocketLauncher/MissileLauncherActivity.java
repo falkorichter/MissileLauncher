@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.missilelauncher;
+package de.falkorichter.usb.rocketLauncher;
 
 import java.nio.ByteBuffer;
 

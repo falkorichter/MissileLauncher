@@ -1,6 +1,7 @@
-<manifest package="com.android.missilelauncher"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="de.falkorichter.usb.rocketLauncher"
     android:versionCode="1"
-    android:versionName="0.1" xmlns:android="http://schemas.android.com/apk/res/android">
+    android:versionName="0.1" >
 
     <uses-feature android:name="android.hardware.usb.host" />
 
@@ -9,10 +10,13 @@
         android:minSdkVersion="14"
         android:targetSdkVersion="14" />
 
-    <application android:allowBackup="false" >
+    <application
+        android:allowBackup="false"
+        android:icon="@drawable/launcher" >
         <activity
-            android:name="MissileLauncherActivity_"
+            android:name="de.falkorichter.usb.rocketLauncher.MissileLauncherActivity_"
             android:exported="false"
+            android:icon="@drawable/launcher"
             android:label="@string/application_name"
             android:screenOrientation="nosensor" >
             <intent-filter>
