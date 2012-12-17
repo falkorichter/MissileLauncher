@@ -37,7 +37,7 @@
                 android:id="@+id/moveUp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="up" />
+                android:text="@string/launcher_aimPad_up" />
 
             <Button
                 android:layout_width="wrap_content"
@@ -53,19 +53,19 @@
                 android:id="@+id/moveLeft"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="left" />
+                android:text="@string/launcher_aimPad_left" />
 
             <Button
                 android:id="@+id/fire"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="fire" />
+                android:text="@string/launcher_aimPad_fire" />
 
             <Button
                 android:id="@+id/moveRight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="right" />
+                android:text="@string/launcher_aimPad_right" />
         </TableRow>
 
         <TableRow
@@ -81,7 +81,7 @@
                 android:id="@+id/moveDown"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="down" />
+                android:text="@string/launcher_aimPad_down" />
 
             <Button
                 android:layout_width="wrap_content"
@@ -93,9 +93,7 @@
     <TextView
         android:id="@+id/logTextView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="this is a log">
-
+        android:layout_height="match_parent" >
     </TextView>
-    
+
 </LinearLayout>

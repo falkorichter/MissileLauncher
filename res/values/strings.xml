@@ -16,7 +16,17 @@
 
 <resources>
 
-    <string name="fire">Fire!</string>
+    <string name="launcher_aimPad_fire">fire</string>
+
+    <string name="launcher_aimPad_left">left</string>
+
+    <string name="launcher_aimPad_right">right</string>
+
+    <string name="launcher_aimPad_down">down</string>
+
+    <string name="launcher_aimPad_up">up</string>
+
+    <string name="application_name">Missile Launcher</string>
 
 </resources>
 

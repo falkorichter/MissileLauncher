@@ -1,25 +1,34 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.android.missilelauncher">
+<manifest package="com.android.missilelauncher"
+    android:versionCode="1"
+    android:versionName="0.1" xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-feature android:name="android.hardware.usb.host" />
-    <uses-sdk android:minSdkVersion="14" />
 
-    <application>
-        <activity android:name="MissileLauncherActivity_"
-            android:label="Missile Launcher"
-            android:screenOrientation="nosensor">
+    <uses-sdk
+        android:maxSdkVersion="14"
+        android:minSdkVersion="14"
+        android:targetSdkVersion="14" />
+
+    <application android:allowBackup="false" >
+        <activity
+            android:name="MissileLauncherActivity_"
+            android:exported="false"
+            android:label="@string/application_name"
+            android:screenOrientation="nosensor" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
             <intent-filter>
                 <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
             </intent-filter>
 
-            <meta-data android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
+            <meta-data
+                android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
                 android:resource="@xml/device_filter" />
         </activity>
     </application>
+
 </manifest>
