@@ -62,8 +62,8 @@ implements View.OnClickListener, Runnable, OnTouchListener {
 	@ViewById(R.id.moveDown)
 	Button mMoveDown;
 
-	@ViewById(R.id.fire2)
-	Button mFireButton2;
+	@ViewById(R.id.fire)
+	Button mFireButton;
 
 	@ViewById(R.id.logTextView)
 	TextView logTextView;
@@ -112,7 +112,8 @@ implements View.OnClickListener, Runnable, OnTouchListener {
 		mMoveDown.setOnClickListener(this);
 		mMoveDown.setOnTouchListener(this);
 
-		mFireButton2.setOnClickListener(this);
+		mFireButton.setOnClickListener(this);
+		mFireButton.setOnTouchListener(this);
 
 		mGravitySensor = mSensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
 	}
@@ -213,7 +214,6 @@ implements View.OnClickListener, Runnable, OnTouchListener {
 		if (mConnection != null) {
 			synchronized (this) {
 
-				appendLogText("sendMove " + control);
 				byte[] message = new byte[8];
 				message[0] = 0x2;
 				message[2] = 0;
@@ -352,7 +352,7 @@ implements View.OnClickListener, Runnable, OnTouchListener {
 			else if (v == mMoveUp) {
 				sendCommand(COMMAND_UP);
 			}
-			else if (v == mFireButton2) {
+			else if (v == mFireButton) {
 				sendCommand(COMMAND_FIRE);
 			}
 		}
