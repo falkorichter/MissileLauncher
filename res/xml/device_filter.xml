@@ -18,5 +18,4 @@
     <usb-device vendor-id="2689" product-id="1793" />
     <!-- vendor and product ID for Dream Cheeky Wireless USB Missle Launcher -->
     <usb-device vendor-id="2689" product-id="65281" />
-    <usb-device vendor-id="8483" product-id="4112" />
 </resources>
