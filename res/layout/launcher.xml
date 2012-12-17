@@ -29,7 +29,6 @@
             android:layout_height="wrap_content" >
 
             <Button
-                android:id="@+id/none"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="" />
@@ -41,7 +40,6 @@
                 android:text="up" />
 
             <Button
-                android:id="@+id/none"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="" />
@@ -75,7 +73,6 @@
             android:layout_height="wrap_content" >
 
             <Button
-                android:id="@+id/none"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="" />
@@ -87,11 +84,18 @@
                 android:text="down" />
 
             <Button
-                android:id="@+id/none"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="" />
         </TableRow>
     </TableLayout>
 
+    <TextView
+        android:id="@+id/logTextView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="this is a log">
+
+    </TextView>
+    
 </LinearLayout>

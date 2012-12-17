@@ -19,7 +19,6 @@ package com.android.missilelauncher;
 import java.nio.ByteBuffer;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -38,23 +37,46 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.Button;
+import android.widget.TextView;
 
+import com.googlecode.androidannotations.annotations.AfterViews;
+import com.googlecode.androidannotations.annotations.EActivity;
+import com.googlecode.androidannotations.annotations.SystemService;
+import com.googlecode.androidannotations.annotations.UiThread;
+import com.googlecode.androidannotations.annotations.ViewById;
+
+@EActivity(R.layout.launcher)
 public class MissileLauncherActivity extends Activity
 implements View.OnClickListener, Runnable, OnTouchListener {
 
 	private static final String TAG = "MissileLauncherActivity";
 
-	private Button mMoveUp;
-	private Button mMoveLeft;
-	private Button mMoveRight;
-	private Button mMoveDown;
-	private Button mFireButton2;
+	@ViewById(R.id.moveUp)
+	Button mMoveUp;
 
-	private UsbManager mUsbManager;
+	@ViewById(R.id.moveLeft)
+	Button mMoveLeft;
+
+	@ViewById(R.id.moveRight)
+	Button mMoveRight;
+
+	@ViewById(R.id.moveDown)
+	Button mMoveDown;
+
+	@ViewById(R.id.fire2)
+	Button mFireButton2;
+
+	@ViewById(R.id.logTextView)
+	TextView logTextView;
+
+	@SystemService
+	UsbManager mUsbManager;
 	private UsbDevice mDevice;
 	private UsbDeviceConnection mConnection;
 	private UsbEndpoint mEndpointIntr;
-	private SensorManager mSensorManager;
+
+	@SystemService
+	SensorManager mSensorManager;
 	private Sensor mGravitySensor;
 
 	// USB control commands
@@ -73,34 +95,23 @@ implements View.OnClickListener, Runnable, OnTouchListener {
 	private static final int TILT_DOWN = 4;
 	private static final double THRESHOLD = 5.0;
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+	@AfterViews
+	public void initialize() {
 
-		setContentView(R.layout.launcher);
-
-		mMoveUp = (Button)findViewById(R.id.moveUp);
 		mMoveUp.setOnClickListener(this);
 		mMoveUp.setOnTouchListener(this);
 
-		mMoveLeft = (Button)findViewById(R.id.moveLeft);
 		mMoveLeft.setOnClickListener(this);
 		mMoveLeft.setOnTouchListener(this);
-		
-		mMoveRight = (Button)findViewById(R.id.moveRight);
+
 		mMoveRight.setOnClickListener(this);
 		mMoveRight.setOnTouchListener(this);
-		
-		mMoveDown = (Button)findViewById(R.id.moveDown);
+
 		mMoveDown.setOnClickListener(this);
 		mMoveDown.setOnTouchListener(this);
 
-		mFireButton2 = (Button)findViewById(R.id.fire2);
 		mFireButton2.setOnClickListener(this);
 
-		mUsbManager = (UsbManager)getSystemService(Context.USB_SERVICE);
-
-		mSensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
 		mGravitySensor = mSensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
 	}
 
@@ -136,29 +147,32 @@ implements View.OnClickListener, Runnable, OnTouchListener {
 	}
 
 	private void setDevice(UsbDevice device) {
-		Log.d(TAG, "setDevice " + device);
+		appendLogText("setDevice " + device);
+		appendLogText(device.getDeviceClass()+ "" + device.getDeviceId());
 		if (device.getInterfaceCount() != 1) {
-			Log.e(TAG, "could not find interface");
+			appendLogText("could not find interface");
 			return;
 		}
 		UsbInterface intf = device.getInterface(0);
 		// device should have one endpoint
 		if (intf.getEndpointCount() != 1) {
-			Log.e(TAG, "could not find endpoint");
+			appendLogText("could not find endpoint");
 			return;
 		}
 		// endpoint should be of type interrupt
 		UsbEndpoint ep = intf.getEndpoint(0);
 		if (ep.getType() != UsbConstants.USB_ENDPOINT_XFER_INT) {
-			Log.e(TAG, "endpoint is not interrupt type");
+
+			appendLogText("endpoint is not interrupt type");
 			return;
 		}
+
 		mDevice = device;
 		mEndpointIntr = ep;
 		if (device != null) {
 			UsbDeviceConnection connection = mUsbManager.openDevice(device);
 			if (connection != null && connection.claimInterface(intf, true)) {
-				Log.d(TAG, "open SUCCESS");
+				appendLogText("open SUCCESS");
 				mConnection = connection;
 				Thread thread = new Thread(this);
 				thread.start();
@@ -169,12 +183,18 @@ implements View.OnClickListener, Runnable, OnTouchListener {
 			}
 		}
 	}
+	 
+	@UiThread
+	public void appendLogText(String string) {
+		Log.e(TAG, string);
+		logTextView.setText(string+"\n"+logTextView.getText());
+	}
 
 	private void sendCommand(int control) {
 		if (mConnection != null) {
 			synchronized (this) {
 
-				Log.d(TAG, "sendMove " + control);
+				appendLogText("sendMove " + control);
 				byte[] message = new byte[8];
 				message[0] = 0x2;
 				message[2] = 0;
@@ -215,7 +235,7 @@ implements View.OnClickListener, Runnable, OnTouchListener {
 	}
 
 	public void onClick(View v) {
-		
+
 	}
 
 	private int mLastValue = 0;
@@ -278,9 +298,9 @@ implements View.OnClickListener, Runnable, OnTouchListener {
 			// wait for status event
 			if (mConnection.requestWait() == request) {
 				byte newStatus = buffer.get(0);
-				Log.d(TAG, "got newStatus " + newStatus);
+				appendLogText("got newStatus " + newStatus);
 				if (newStatus != status) {
-					Log.d(TAG, "got status " + newStatus);
+					appendLogText( "got status " + newStatus);
 					status = newStatus;
 					if ((status & COMMAND_FIRE) != 0) {
 						// stop firing
@@ -292,7 +312,7 @@ implements View.OnClickListener, Runnable, OnTouchListener {
 				} catch (InterruptedException e) {
 				}
 			} else {
-				Log.e(TAG, "requestWait failed, exiting");
+				appendLogText("requestWait failed, exiting");
 				break;
 			}
 		}

@@ -2,10 +2,10 @@
     package="com.android.missilelauncher">
 
     <uses-feature android:name="android.hardware.usb.host" />
-    <uses-sdk android:minSdkVersion="12" />
+    <uses-sdk android:minSdkVersion="14" />
 
     <application>
-        <activity android:name="MissileLauncherActivity"
+        <activity android:name="MissileLauncherActivity_"
             android:label="Missile Launcher"
             android:screenOrientation="nosensor">
             <intent-filter>
