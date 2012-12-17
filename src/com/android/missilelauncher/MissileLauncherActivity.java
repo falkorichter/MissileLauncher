@@ -31,7 +31,6 @@ import android.hardware.usb.UsbEndpoint;
 import android.hardware.usb.UsbInterface;
 import android.hardware.usb.UsbManager;
 import android.hardware.usb.UsbRequest;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -98,6 +97,9 @@ implements View.OnClickListener, Runnable, OnTouchListener {
 	@AfterViews
 	public void initialize() {
 
+		logTextView.setText("");
+		logTextView.setVerticalScrollBarEnabled(true);
+
 		mMoveUp.setOnClickListener(this);
 		mMoveUp.setOnTouchListener(this);
 
@@ -148,7 +150,23 @@ implements View.OnClickListener, Runnable, OnTouchListener {
 
 	private void setDevice(UsbDevice device) {
 		appendLogText("setDevice " + device);
-		appendLogText(device.getDeviceClass()+ "" + device.getDeviceId());
+		
+		appendLogText("getDeviceClass: "+device.getDeviceClass());
+		//TODO: finish the mapping
+		switch (device.getDeviceClass()) {
+		case UsbConstants.USB_CLASS_APP_SPEC:
+			appendLogText("getDeviceClass: USB_CLASS_APP_SPEC ");
+			break;
+		case UsbConstants.USB_CLASS_PER_INTERFACE:
+			appendLogText("getDeviceClass: USB_CLASS_PER_INTERFACE");
+			break;
+		}
+	
+		appendLogText("getDeviceId:" + device.getDeviceId());
+		appendLogText("getDeviceName:" + device.getDeviceName());
+		appendLogText("getVendorId:" + device.getVendorId());
+		appendLogText("getProductId:" + device.getProductId());
+
 		if (device.getInterfaceCount() != 1) {
 			appendLogText("could not find interface");
 			return;
@@ -183,10 +201,11 @@ implements View.OnClickListener, Runnable, OnTouchListener {
 			}
 		}
 	}
-	 
+
 	@UiThread
 	public void appendLogText(String string) {
 		Log.e(TAG, string);
+		logTextView.setVerticalScrollbarPosition(0);
 		logTextView.setText(string+"\n"+logTextView.getText());
 	}
 
