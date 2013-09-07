@@ -14,7 +14,7 @@
         android:allowBackup="false"
         android:icon="@drawable/launcher" >
         <activity
-            android:name="de.falkorichter.usb.rocketLauncher.MissileLauncherActivity_"
+            android:name="java.de.falkorichter.usb.rocketLauncher.MissileLauncherActivity"
             android:icon="@drawable/launcher"
             android:label="@string/application_name"
             android:screenOrientation="nosensor" >
