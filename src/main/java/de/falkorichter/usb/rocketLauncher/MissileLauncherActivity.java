@@ -90,20 +90,20 @@ implements View.OnClickListener, Runnable, OnTouchListener {
 
 		
 		mUsbManager =  (UsbManager) getSystemService(Context.USB_SERVICE);
-		mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+		mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 
-		@ViewById(R.id.moveUp)
+		/*@ViewById(R.id.moveUp)
 		@ViewById(R.id.moveLeft)
 		@ViewById(R.id.moveRight)
 		@ViewById(R.id.moveDown)
 		@ViewById(R.id.fire)
-		@ViewById(R.id.logTextView)
+		@ViewById(R.id.logTextView)*/
 
 		initialize();
 	}
 
-	@AfterViews
-	public void initialize() {
+	
+	private void initialize() {
 
 		logTextView.setText("");
 		logTextView.setVerticalScrollBarEnabled(true);
@@ -212,7 +212,7 @@ implements View.OnClickListener, Runnable, OnTouchListener {
 	}
 
 	
-	public void appendLogText(String string) {
+	public void appendLogText(final String string) {
 		runOnUiThread(new Runnable(){
 			@Override
 			public void run(){
