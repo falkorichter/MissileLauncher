@@ -1,0 +1,48 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    def gradleAndroidAnnotationsPluginVersion = '0.3.0'
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.4.2'
+        classpath "net.ealden.gradle.plugins:gradle-androidannotations-plugin:$gradleAndroidAnnotationsPluginVersion"
+    }
+}
+
+
+apply plugin: 'android'
+
+repositories {
+    maven { url 'http://repo1.maven.org/maven2' }
+}
+
+
+dependencies {
+    compile fileTree(dir: 'libs', include: '**/*.jar')
+}
+
+
+android {
+    compileSdkVersion 17
+    buildToolsVersion "17.0.0"
+
+    sourceSets {
+        main {
+            manifest {
+                srcFile 'AndroidManifest.xml'
+            }
+
+            java {
+                srcDir 'src'
+            }
+
+            res {
+                srcDir 'res'
+            }
+
+        }
+    }
+
+}
