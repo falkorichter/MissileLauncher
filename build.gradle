@@ -1,17 +1,13 @@
 buildscript {
     repositories {
         mavenCentral()
-    }    
+    }
     dependencies {
         classpath 'com.android.tools.build:gradle:0.5.+'
     }
 }
 
 apply plugin: 'android'
-
-repositories {
-    maven { url 'http://repo1.maven.org/maven2' }
-}
 
 
 dependencies {
@@ -22,22 +18,4 @@ dependencies {
 android {
     compileSdkVersion 17
     buildToolsVersion "17.0.0"
-
-    sourceSets {
-        main {
-            manifest {
-                srcFile 'AndroidManifest.xml'
-            }
-
-            java {
-                srcDir 'src'
-            }
-
-            res {
-                srcDir 'res'
-            }
-
-        }
-    }
-
 }
