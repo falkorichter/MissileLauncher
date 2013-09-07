@@ -44,38 +44,28 @@ import com.googlecode.androidannotations.annotations.SystemService;
 import com.googlecode.androidannotations.annotations.UiThread;
 import com.googlecode.androidannotations.annotations.ViewById;
 
-@EActivity(R.layout.launcher)
+
 public class MissileLauncherActivity extends Activity
 implements View.OnClickListener, Runnable, OnTouchListener {
 
 	private static final String TAG = "MissileLauncherActivity";
 
-	@ViewById(R.id.moveUp)
+	
 	Button mMoveUp;
-
-	@ViewById(R.id.moveLeft)
 	Button mMoveLeft;
-
-	@ViewById(R.id.moveRight)
-	Button mMoveRight;
-
-	@ViewById(R.id.moveDown)
+	Button mMoveRight;	
 	Button mMoveDown;
-
-	@ViewById(R.id.fire)
 	Button mFireButton;
-
-	@ViewById(R.id.logTextView)
 	TextView logTextView;
 
-	@SystemService
-	UsbManager mUsbManager;
+	
+	private UsbManager mUsbManager;
 	private UsbDevice mDevice;
 	private UsbDeviceConnection mConnection;
 	private UsbEndpoint mEndpointIntr;
 
-	@SystemService
-	SensorManager mSensorManager;
+	
+	private SensorManager mSensorManager;
 	private Sensor mGravitySensor;
 
 	// USB control commands
@@ -93,6 +83,24 @@ implements View.OnClickListener, Runnable, OnTouchListener {
 	private static final int TILT_UP = 8;
 	private static final int TILT_DOWN = 4;
 	private static final double THRESHOLD = 5.0;
+
+	public void onCreate(){
+
+		setLayout(R.layout.launcher);
+
+		
+		mUsbManager =  (UsbManager) getSystemService(Context.USB_SERVICE);
+		mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+
+		@ViewById(R.id.moveUp)
+		@ViewById(R.id.moveLeft)
+		@ViewById(R.id.moveRight)
+		@ViewById(R.id.moveDown)
+		@ViewById(R.id.fire)
+		@ViewById(R.id.logTextView)
+
+		initialize();
+	}
 
 	@AfterViews
 	public void initialize() {
@@ -203,11 +211,16 @@ implements View.OnClickListener, Runnable, OnTouchListener {
 		}
 	}
 
-	@UiThread
+	
 	public void appendLogText(String string) {
-		Log.e(TAG, string);
-		logTextView.setVerticalScrollbarPosition(0);
-		logTextView.setText(string+"\n"+logTextView.getText());
+		runOnUiThread(new Runnable(){
+			@Override
+			public void run(){
+				Log.e(TAG, string);
+				logTextView.setVerticalScrollbarPosition(0);
+				logTextView.setText(string+"\n"+logTextView.getText());		
+			}
+		});
 	}
 
 	private void sendCommand(int control) {

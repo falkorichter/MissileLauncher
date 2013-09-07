@@ -1,16 +1,8 @@
 buildscript {
     repositories {
         mavenCentral()
-    }
-
-    def gradleAndroidAnnotationsPluginVersion = '0.3.0'
-
-    dependencies {
-        classpath 'com.android.tools.build:gradle:0.4.2'
-        classpath "net.ealden.gradle.plugins:gradle-androidannotations-plugin:$gradleAndroidAnnotationsPluginVersion"
-    }
+    }    
 }
-
 
 apply plugin: 'android'
 
